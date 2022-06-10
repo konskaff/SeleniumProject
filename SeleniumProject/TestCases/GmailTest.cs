@@ -1,12 +1,5 @@
 ﻿using OpenQA.Selenium;
-using OpenQA.Selenium.Support.UI;
 using SeleniumProject.Config;
-using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SeleniumProject.TestCases
 {
@@ -20,19 +13,15 @@ namespace SeleniumProject.TestCases
             driver.FindElement(By.Id("identifierId")).SendKeys("konstantinakaffe93@gmail.com");
             driver.FindElement(By.XPath("/html/body/div[1]/div[1]/div[2]/div/div[2]/div/div/div[2]/div/div[2]/div/div[1]/div/div/button")).Click();
             driver.FindElement(By.XPath("/html/body/div[1]/div[1]/div[2]/div/div[2]/div/div/div[2]/div/div[1]/div/form/span/section/div/div/div[1]/div[1]/div/div/div/div/div[1]/div/div[1]/input")).SendKeys("123456789!K");
-            //due to openQA.Selenium.StaleElementReferenceException: It means that either the element changed in the page, or element gets deleted.You should try again,
-            bool staleElement = true;
-            while (staleElement)
+            //due to openQA.Selenium.StaleElementReferenceException: It means that either the element changed in the page, or element gets deleted.You should try again
+            String buttonContinueXPath = "/html/body/div[1]/div[1]/div[2]/div/div[2]/div/div/div[2]/div/div[2]/div/div[1]/div/div/button";
+            try
             {
-                try
-                {
-                    driver.FindElement(By.XPath("/html/body/div[1]/div[1]/div[2]/div/div[2]/div/div/div[2]/div/div[2]/div/div[1]/div/div/button")).Click();
-                    staleElement = false;
-                }
-                catch (StaleElementReferenceException e)
-                {
-                    staleElement = true;
-                }
+                driver.FindElement(By.XPath(buttonContinueXPath)).Click();
+            }
+            catch (StaleElementReferenceException)
+            {
+                driver.FindElement(By.XPath(buttonContinueXPath)).Click();
             }
         }
 
@@ -47,7 +36,6 @@ namespace SeleniumProject.TestCases
                 string name = driver.FindElement(By.Id(":1z")).GetAttribute("aria-label");
                 Assert.That(name, Is.EqualTo("Primary"));
                 Console.WriteLine("The " + name + " is selected by default.");
-
             }
             else
             {
